@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+silent: false
+
+tasks:
+  install:
+    desc: Install deps and tools
+    deps: [install:deps, install:tools]
+
+  install:deps:
+    desc: Install dependencies
+    cmds:
+      - go mod download
+      - go mod verify
+
+  install:tools:
+    desc: Install tools
+    cmds:
+      - go build -o bin/ tool
+
+  check:
+    desc: Check vulnerabilities and dependencies
+    deps: [check:tidy, check:vuln]
+
+  check:vuln:
+    desc: Check and detect vulnerabilities
+    cmds:
+      - go tool govulncheck -show verbose ./...
+
+  check:tidy:
+    desc: Check dependencies
+    cmds:
+      - go mod tidy
+      - go mod verify
+
+  copy:pkgx:
+    desc: Copy pkgx packages
+    cmds:
+      - rsync -av --delete ../pkgx/ ./pkg/
+
+  generate:
+    desc: Generate task
+    cmd: ""
+
+  dev:
+    desc: Run in dev mode
+    cmd: go tool air
+
+  run:
+    desc: Run in simple mode
+    cmd: go run ./cmd/main.go
+
+  build:
+    desc: Build package
+    cmd: go build ./cmd/main.go
+
+  test:
+    desc: Test package
+    cmd: go test -v ./...

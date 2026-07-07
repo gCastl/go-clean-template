@@ -1,0 +1,25 @@
+# Env file
+.env
+
+# AI directories
+.skills
+.claude/settings.local.json
+.claude/worktrees/*
+.claude/scheduled_tasks.lock
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Test binary, built with `go test -c`
+*.test
+
+# Dependency directories
+vendor/
+
+# Build output
+bin/
+
+# Temporary directories
+.air/
+.tmp/
