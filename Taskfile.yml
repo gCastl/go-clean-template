@@ -8,26 +8,35 @@ tasks:
   install:
     desc: Install deps and tools
     deps: [install:deps, install:tools]
+    cmds:
+      - task: install:hooks
 
   install:deps:
     desc: Install dependencies
     cmds:
       - go mod download
-      - go mod verify
+      - task: check:tidy
 
   install:tools:
     desc: Install tools
     cmds:
-      - go build -o bin/ tool
+      - go install github.com/air-verse/air@latest
+      - go install github.com/evilmartians/lefthook/v2@latest
+      - go install golang.org/x/vuln/cmd/govulncheck@latest
+
+  install:hooks:
+    desc: Install lefthook hooks
+    cmds:
+      - lefthook install
 
   check:
     desc: Check vulnerabilities and dependencies
-    deps: [check:tidy, check:vuln]
+    deps: [check:tidy, check:vuln, check:lefthook]
 
   check:vuln:
     desc: Check and detect vulnerabilities
     cmds:
-      - go tool govulncheck -show verbose ./...
+      - govulncheck ./...
 
   check:tidy:
     desc: Check dependencies
@@ -35,18 +44,25 @@ tasks:
       - go mod tidy
       - go mod verify
 
+  check:lefthook:
+    desc: Check lefthook install
+    cmds:
+      - lefthook validate
+
   copy:pkgx:
     desc: Copy pkgx packages
     cmds:
       - rsync -av --delete ../pkgx/ ./pkg/
 
+  tidy:
+    cmd: go mod tidy
+
   generate:
-    desc: Generate task
     cmd: ""
 
   dev:
     desc: Run in dev mode
-    cmd: go tool air
+    cmd: air
 
   run:
     desc: Run in simple mode
@@ -58,4 +74,4 @@ tasks:
 
   test:
     desc: Test package
-    cmd: go test -v ./...
+    cmd: go test ./...
