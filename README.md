@@ -15,20 +15,20 @@ This template helps you kickstart new Go projects with best practices already in
 
 ## Usage as a Template
 
-### Option 1: Using gonew (Recommended)
+### Using gonew (Recommended)
 
-The easiest way to use this template is with [gonew](https://github.com/chuhlomin/gonew), which automatically copies the template and updates the module name for your new project.
+The easiest way to use this template is with gonew, which automatically copies the template and updates the module name for your new project.
 
 **Install gonew:**
 
 ```bash
-go install github.com/chuhlomin/gonew@latest
+go install golang.org/x/tools/cmd/gonew@latest
 ```
 
 **Create a new project from this template:**
 
 ```bash
-gonew github.com/gCastl/go-clean-template github.com/yourname/yourproject
+gonew github.com/gCastl/go-clean-template/<template> github.com/yourname/yourproject
 ```
 
 This command will:
@@ -38,17 +38,8 @@ This command will:
 
 Replace `github.com/yourname/yourproject` with your actual module path.
 
-### Option 2: Manual Clone
-
-Alternatively, you can clone the repository manually:
-
-```bash
-git clone https://github.com/gCastl/go-clean-template.git your-project-name
-cd your-project-name
-git remote remove origin
-```
-
-Then update the module name in `go.mod` and throughout the codebase to match your project.
+Available template:
+- rest-api
 
 ## Installation
 
